@@ -102,7 +102,7 @@ All resources used are official or open-source and referenced ethically.
 
 ## 👥 Team
 
-**Team Name:** Sentinel / Response Architects  
+**Team Name:** Innovex 
 **Project Type:** Hackathon Project  
 **Domain:** Public Safety & Smart City Solutions  
 
