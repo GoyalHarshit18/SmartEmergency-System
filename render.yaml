@@ -1,73 +1,61 @@
 services:
-  # ----------------------------------------
-  # AI Service (Python/Flask)
-  # ----------------------------------------
-  - type: web
-    name: ai-service
-    env: docker
-    rootDir: apps/ai-services
-    plan: free
-    envVars:
-      - key: PORT
-        value: 8080
-
-  # ----------------------------------------
-  # Admin Backend (Node/Express)
-  # ----------------------------------------
+  # ============ ADMIN BACKEND ============
   - type: web
     name: admin-backend
-    env: docker
+    runtime: node
     rootDir: apps/admin/backend
-    plan: free
+    buildCommand: npm install
+    startCommand: npm run start
     envVars:
+      - key: NODE_ENV
+        value: production
       - key: PORT
-        value: 3000
-      - key: MONGODB_URI
-        sync: false # User will need to input this in dashboard
-
-  # ----------------------------------------
-  # Citizen Backend (Node/Express)
-  # ----------------------------------------
-  - type: web
-    name: citizen-backend
-    env: docker
-    rootDir: apps/citizen/backend
-    plan: free
-    envVars:
-      - key: PORT
-        value: 5000
-      - key: MONGODB_URI
+        value: 10000
+      - key: MONGO_URI
         sync: false
       - key: JWT_SECRET
-        generateValue: true
-      - key: AI_SERVICE_URL
-        fromService:
-          type: web
-          name: ai-service
-          property: hostport
-
-  # ----------------------------------------
-  # Admin Frontend (Static Site)
-  # ----------------------------------------
-  - type: web
-    name: admin-frontend
-    rootDir: apps/admin
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_BASE_URL
-        value: https://admin-backend-placeholder.onrender.com/api # UPDATE THIS IN RENDER DASHBOARD
         sync: false
 
-  # ----------------------------------------
-  # Citizen Frontend (Static Site)
-  # ----------------------------------------
-  - type: web
-    name: citizen-frontend
-    rootDir: apps/citizen
+  # ============ ADMIN FRONTEND ============
+  - type: static
+    name: admin-frontend
+    rootDir: apps/admin/frontend
     buildCommand: npm install && npm run build
-    staticPublishPath: dist
+    publishPath: dist
+
+  # ============ CITIZEN BACKEND ============
+  - type: web
+    name: citizen-backend
+    runtime: node
+    rootDir: apps/citizen/backend
+    buildCommand: npm install
+    startCommand: npm run start
     envVars:
-      - key: VITE_API_BASE_URL
-        value: https://citizen-backend-placeholder.onrender.com/api # UPDATE THIS IN RENDER DASHBOARD
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+
+  # ============ CITIZEN FRONTEND ============
+  - type: static
+    name: citizen-frontend
+    rootDir: apps/citizen/frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+
+  # ============ AI SERVICE ============
+  - type: web
+    name: ai-service
+    runtime: node
+    rootDir: apps/ai-service
+    buildCommand: npm install
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: OPENAI_API_KEY
         sync: false
