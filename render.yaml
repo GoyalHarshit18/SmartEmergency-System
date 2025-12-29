@@ -9,19 +9,18 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
       - key: MONGO_URI
         sync: false
       - key: JWT_SECRET
         sync: false
 
   # ============ ADMIN FRONTEND ============
-  - type: static
+  - type: web
     name: admin-frontend
+    runtime: static
     rootDir: apps/admin/frontend
     buildCommand: npm install && npm run build
-    publishPath: dist
+    staticPublishPath: dist
 
   # ============ CITIZEN BACKEND ============
   - type: web
@@ -33,19 +32,18 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
       - key: MONGO_URI
         sync: false
       - key: JWT_SECRET
         sync: false
 
   # ============ CITIZEN FRONTEND ============
-  - type: static
+  - type: web
     name: citizen-frontend
+    runtime: static
     rootDir: apps/citizen/frontend
     buildCommand: npm install && npm run build
-    publishPath: dist
+    staticPublishPath: dist
 
   # ============ AI SERVICE ============
   - type: web
