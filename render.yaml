@@ -12,7 +12,30 @@ services:
         value: 8080
 
   # ----------------------------------------
-  # Citizen Backend (Node/Express)
+  # Admin Backend (Node.js)
+  # ----------------------------------------
+  - type: web
+    name: admin-backend
+    env: node
+    rootDir: apps/admin/backend
+    buildCommand: npm install
+    startCommand: node server.js
+    plan: free
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: AI_SERVICE_URL
+        fromService:
+          type: web
+          name: ai-service
+          property: host
+
+  # ----------------------------------------
+  # Citizen Backend (Node/Express via Docker)
   # ----------------------------------------
   - type: web
     name: citizen-backend
@@ -33,20 +56,20 @@ services:
           property: host
 
   # ----------------------------------------
-  # Admin Frontend (React – built via Vite)
+  # Admin Frontend (React – Vite Build)
   # ----------------------------------------
   - type: web
     name: admin-frontend
     env: static
-    rootDir: apps/ai-services
+    rootDir: apps/admin
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: ""
+        value: ""   # set later after deploy
 
   # ----------------------------------------
-  # Citizen Frontend (React – built via Vite)
+  # Citizen Frontend (React – Vite Build)
   # ----------------------------------------
   - type: web
     name: citizen-frontend
@@ -56,4 +79,4 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: ""
+        value: ""   # set later after deploy
