@@ -58,15 +58,16 @@ services:
   # ----------------------------------------
   # Admin Frontend (React – Vite Build)
   # ----------------------------------------
-  - type: web
+   - type: web
     name: admin-frontend
     env: static
     rootDir: apps/admin
-    buildCommand: npm install && npm run build
+    buildCommand: npm ci --legacy-peer-deps && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: ""   # set later after deploy
+        value: ""
+
 
   # ----------------------------------------
   # Citizen Frontend (React – Vite Build)
