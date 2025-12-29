@@ -35,7 +35,7 @@ services:
           property: host
 
   # ----------------------------------------
-  # Citizen Backend (Node/Express via Docker)
+  # Citizen Backend (Node/Express using Docker)
   # ----------------------------------------
   - type: web
     name: citizen-backend
@@ -56,9 +56,9 @@ services:
           property: host
 
   # ----------------------------------------
-  # Admin Frontend (React – Vite Build)
+  # Admin Frontend (React – Vite)
   # ----------------------------------------
-   - type: web
+  - type: web
     name: admin-frontend
     env: static
     rootDir: apps/admin
@@ -68,9 +68,8 @@ services:
       - key: VITE_API_BASE_URL
         value: ""
 
-
   # ----------------------------------------
-  # Citizen Frontend (React – Vite Build)
+  # Citizen Frontend (React – Vite)
   # ----------------------------------------
   - type: web
     name: citizen-frontend
@@ -80,4 +79,4 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: ""   # set later after deploy
+        value: ""
