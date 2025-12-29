@@ -62,7 +62,11 @@ services:
     name: admin-frontend
     env: static
     rootDir: apps/admin
-    buildCommand: npm ci --legacy-peer-deps && npm run build
+    buildCommand: |
+      export NODE_OPTIONS="--openssl-legacy-provider"
+      npm install
+      npm run build
+
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
